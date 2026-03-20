@@ -328,19 +328,8 @@ export default function BuyerView() {
             flexWrap: 'wrap',
             gap: '16px'
           }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <div style={{
-                width: '32px',
-                height: '32px',
-                background: 'var(--accent-orange)',
-                borderRadius: '8px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}>
-                <span style={{ color: '#000', fontWeight: 800, fontSize: '11px' }}>DR</span>
-              </div>
-              <span style={{ fontWeight: 700, color: 'var(--text-primary)' }}>DubbingRights</span>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <img src="/logo.png" alt="DubbingRights" style={{ height: '36px', width: 'auto' }} />
             </div>
             <div style={{ display: 'flex', gap: '24px', fontSize: '14px', color: 'var(--text-muted)' }}>
               <span>© 2025 DubbingRights</span>

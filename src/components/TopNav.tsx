@@ -12,13 +12,8 @@ export default function TopNav() {
       <div className="flex items-center justify-between h-full px-4 sm:px-6 lg:px-8 max-w-screen-2xl mx-auto gap-4">
 
         {/* Brand */}
-        <div className="flex items-center gap-2.5 shrink-0">
-          <div className="w-8 h-8 bg-[#F98110] rounded-lg flex items-center justify-center shrink-0">
-            <span className="text-black font-black text-xs">DR</span>
-          </div>
-          <span className="text-lg font-black tracking-tighter text-[#E5E2E1] whitespace-nowrap">
-            Dubbing<span className="text-[#F98110]">Rights</span>
-          </span>
+        <div className="flex items-center gap-2 shrink-0">
+          <img src="/logo.png" alt="DubbingRights" className="h-10 w-auto" />
         </div>
 
         {/* Search — desktop only */}
