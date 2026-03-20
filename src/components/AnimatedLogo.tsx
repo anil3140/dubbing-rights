@@ -1,35 +1,37 @@
 'use client';
 
+import { useState, useEffect } from 'react';
+
 export default function AnimatedLogo({ className = '' }: { className?: string }) {
+  const [isPlaying, setIsPlaying] = useState(true);
+
+  // Toggle between play and pause every 3 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsPlaying(prev => !prev);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <svg 
-      viewBox="0 0 200 100" 
+      viewBox="0 0 240 90" 
       className={className}
       xmlns="http://www.w3.org/2000/svg"
     >
       <defs>
-        {/* Pulse animation for play button */}
         <style>{`
-          @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.15); opacity: 0.8; }
+          .play-pause-transition {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
           }
-          @keyframes glow {
-            0%, 100% { filter: drop-shadow(0 0 2px rgba(249, 129, 16, 0.4)); }
-            50% { filter: drop-shadow(0 0 6px rgba(249, 129, 16, 0.8)); }
-          }
-          .play-button {
-            animation: pulse 2s ease-in-out infinite;
-            transform-origin: center;
-          }
-          .play-glow {
-            animation: glow 2s ease-in-out infinite;
+          .glow {
+            filter: drop-shadow(0 0 3px rgba(249, 129, 16, 0.5));
           }
         `}</style>
       </defs>
 
       {/* Camera Body */}
-      <g transform="translate(70, 5)">
+      <g transform="translate(95, 2)">
         {/* Main body */}
         <rect x="8" y="12" width="44" height="35" rx="6" fill="#F98110" />
         
@@ -42,14 +44,27 @@ export default function AnimatedLogo({ className = '' }: { className?: string })
         {/* Lens/Viewfinder on right */}
         <polygon points="52,22 65,18 65,38 52,34" fill="#F98110" />
         
-        {/* Play button circle - with glow */}
-        <g className="play-glow">
+        {/* Play button circle */}
+        <g className="glow">
           <circle cx="30" cy="30" r="12" fill="white" />
         </g>
         
-        {/* Play triangle - animated */}
-        <g className="play-button">
-          <polygon points="26,24 26,36 37,30" fill="#F98110" />
+        {/* Play/Pause icon - animated toggle */}
+        <g className="play-pause-transition">
+          {isPlaying ? (
+            /* Play triangle */
+            <polygon 
+              points="26,24 26,36 37,30" 
+              fill="#F98110"
+              className="play-pause-transition"
+            />
+          ) : (
+            /* Pause bars */
+            <g fill="#F98110" className="play-pause-transition">
+              <rect x="24" y="24" width="4" height="12" rx="1" />
+              <rect x="32" y="24" width="4" height="12" rx="1" />
+            </g>
+          )}
         </g>
         
         {/* Tripod legs */}
@@ -57,33 +72,33 @@ export default function AnimatedLogo({ className = '' }: { className?: string })
         <line x1="38" y1="47" x2="50" y2="58" stroke="#F98110" strokeWidth="5" strokeLinecap="round" />
       </g>
 
-      {/* Text: DUBBINGRIGHTS */}
-      <g transform="translate(100, 82)">
+      {/* Text: DUBBING RIGHTS - properly spaced */}
+      <g transform="translate(120, 78)">
         {/* DUBBING - outline only */}
         <text 
-          x="0" 
+          x="-55" 
           y="0" 
-          textAnchor="middle"
+          textAnchor="start"
           fontFamily="system-ui, -apple-system, sans-serif"
-          fontSize="16"
+          fontSize="14"
           fontWeight="700"
           fill="none"
           stroke="#F98110"
-          strokeWidth="1.2"
-          letterSpacing="1"
+          strokeWidth="1"
+          letterSpacing="0.5"
         >
           DUBBING
         </text>
         {/* RIGHTS - filled */}
         <text 
-          x="52" 
+          x="8" 
           y="0" 
           textAnchor="start"
           fontFamily="system-ui, -apple-system, sans-serif"
-          fontSize="16"
+          fontSize="14"
           fontWeight="700"
           fill="#F98110"
-          letterSpacing="1"
+          letterSpacing="0.5"
         >
           RIGHTS
         </text>
