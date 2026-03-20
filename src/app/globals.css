@@ -1,6 +1,29 @@
 @import "tailwindcss";
 
 :root {
+  /* Color tokens - dark mode palette */
+  --bg-base: #0a0a0a;
+  --bg-surface: #141414;
+  --bg-elevated: #1c1c1c;
+  --bg-card: #181818;
+  
+  --text-primary: #f5f5f5;
+  --text-secondary: rgba(255, 255, 255, 0.65);
+  --text-muted: rgba(255, 255, 255, 0.45);
+  
+  --accent-orange: #f97316;
+  --accent-orange-muted: #ea580c;
+  --accent-teal: #14b8a6;
+  --accent-blue: #3b82f6;
+  
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --border-medium: rgba(255, 255, 255, 0.1);
+  
+  --status-pending: #fbbf24;
+  --status-review: #60a5fa;
+  --status-accepted: #34d399;
+  --status-rejected: #f87171;
+  
   --font-manrope: 'Manrope', sans-serif;
 }
 
@@ -12,40 +35,40 @@
 
 html, body {
   font-family: var(--font-manrope), sans-serif;
-  background-color: #0A0A0A;
-  color: #E5E2E1;
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Smooth transitions on interactive elements only */
+a, button, input, select, textarea {
+  transition: all 0.15s ease;
 }
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #131313;
+  background: var(--bg-base);
 }
 ::-webkit-scrollbar-thumb {
-  background: #574335;
-  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #F98110;
-}
-
-/* Smooth transitions — only on interactive elements */
-a, button {
-  transition-property: color, background-color, border-color, opacity, transform, filter;
-  transition-duration: 150ms;
-  transition-timing-function: ease;
+  background: rgba(255, 255, 255, 0.25);
 }
 
 /* Selection */
 ::selection {
-  background-color: #F98110;
+  background-color: var(--accent-orange);
   color: #000;
 }
 
-/* Line clamp utility */
+/* Line clamp utilities */
 .line-clamp-2 {
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -53,12 +76,101 @@ a, button {
   overflow: hidden;
 }
 
-/* Fade in animation for toast */
-@keyframes fade-in {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-.animate-fade-in {
-  animation: fade-in 0.2s ease forwards;
+/* Glass card effect */
+.glass-card {
+  background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
+  border: 1px solid var(--border-subtle);
+  backdrop-filter: blur(10px);
+}
+
+/* Card hover effect */
+.card-hover {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  border-color: var(--border-medium);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Glow effects */
+.glow-orange {
+  box-shadow: 0 0 30px rgba(249, 115, 22, 0.3);
+}
+
+/* Status indicator dots */
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Button base styles */
+.btn-primary {
+  background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+  color: #000;
+  font-weight: 700;
+  border-radius: 12px;
+  padding: 14px 28px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(249, 115, 22, 0.35);
+}
+.btn-primary:hover {
+  box-shadow: 0 6px 20px rgba(249, 115, 22, 0.5);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--text-primary);
+  font-weight: 600;
+  border-radius: 12px;
+  padding: 14px 28px;
+  border: 1px solid var(--border-medium);
+  cursor: pointer;
+}
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Section container */
+.section-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+@media (min-width: 640px) {
+  .section-container {
+    padding: 0 32px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section-container {
+    padding: 0 48px;
+  }
 }
