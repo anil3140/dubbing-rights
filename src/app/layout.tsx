@@ -18,12 +18,12 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${manrope.variable} font-sans bg-[#0A0A0A] text-[#E5E2E1] antialiased`}>
+      <body className={`${manrope.variable} font-sans antialiased`}>
         <RoleProvider>
           <TopNav />
-          <div style={{ paddingTop: '64px' }}>
+          <main className="navbar-offset">
             {children}
-          </div>
+          </main>
         </RoleProvider>
       </body>
     </html>

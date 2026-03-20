@@ -3,153 +3,8 @@
 import { useState } from 'react';
 import { TITLES, Title } from '@/lib/dummyData';
 
-const RIGHTS_OPTIONS = ['All Rights', 'Dubbing', 'SVOD', 'Theatrical', 'Digital Rights', 'VOD'];
+const RIGHTS_OPTIONS = ['All Rights', 'Dubbing', 'SVOD', 'Theatrical', 'Digital', 'VOD'];
 const GENRE_OPTIONS = ['All Genres', 'Action / Thriller', 'Adventure / Drama', 'History / Epic', 'Sci-Fi / Action', 'Drama / War', 'Horror / Thriller', 'Romance / Drama'];
-
-function RightsBadge({ label, variant = 'primary' }: { label: string; variant?: 'primary' | 'secondary' }) {
-  const styles = variant === 'primary' 
-    ? 'bg-gradient-to-r from-orange-500 to-orange-600 text-black shadow-lg shadow-orange-500/30' 
-    : 'bg-black/70 text-white backdrop-blur border border-white/20';
-  return (
-    <span className={`inline-flex items-center px-3 py-1.5 text-[11px] font-bold uppercase tracking-wide rounded-lg ${styles}`}>
-      {label}
-    </span>
-  );
-}
-
-function Toast({ onClose }: { onClose: () => void }) {
-  return (
-    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] bg-emerald-500 text-black px-6 py-4 rounded-2xl font-bold shadow-2xl flex items-center gap-3 animate-slide-up">
-      <div className="w-6 h-6 bg-black/20 rounded-full flex items-center justify-center">
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
-        </svg>
-      </div>
-      <span>Request sent successfully! The seller will contact you shortly.</span>
-      <button onClick={onClose} className="ml-2 opacity-70 hover:opacity-100">✕</button>
-    </div>
-  );
-}
-
-function RequestModal({ title, onClose, onSubmit }: { title: Title; onClose: () => void; onSubmit: () => void }) {
-  const [form, setForm] = useState({ rightsType: '', territory: '', budget: '', message: '' });
-  return (
-    <div className="fixed inset-0 z-[80] bg-black/90 backdrop-blur-md flex items-center justify-center p-4" onClick={onClose}>
-      <div className="bg-[#1a1a1a] rounded-3xl p-8 w-full max-w-md border border-white/10 shadow-2xl" onClick={e => e.stopPropagation()}>
-        <div className="flex items-start justify-between mb-6">
-          <div>
-            <p className="text-xs text-orange-400 font-semibold uppercase tracking-widest mb-1">License Request</p>
-            <h3 className="text-xl font-bold text-white">{title.name}</h3>
-          </div>
-          <button onClick={onClose} className="text-white/50 hover:text-white text-xl">✕</button>
-        </div>
-        <form onSubmit={e => { e.preventDefault(); onSubmit(); onClose(); }} className="space-y-5">
-          <div>
-            <label className="block text-xs font-semibold text-white/50 uppercase tracking-widest mb-2">Rights Type</label>
-            <select required value={form.rightsType} onChange={e => setForm({ ...form, rightsType: e.target.value })}
-              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white focus:outline-none focus:border-orange-500/50 focus:bg-white/10">
-              <option value="" className="bg-[#1a1a1a]">Select rights type...</option>
-              {title.rightsAvailable.map(r => <option key={r} className="bg-[#1a1a1a]">{r}</option>)}
-            </select>
-          </div>
-          <div>
-            <label className="block text-xs font-semibold text-white/50 uppercase tracking-widest mb-2">Territory</label>
-            <select required value={form.territory} onChange={e => setForm({ ...form, territory: e.target.value })}
-              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white focus:outline-none focus:border-orange-500/50 focus:bg-white/10">
-              <option value="" className="bg-[#1a1a1a]">Select territory...</option>
-              {title.territories.map(t => <option key={t} className="bg-[#1a1a1a]">{t}</option>)}
-            </select>
-          </div>
-          <div>
-            <label className="block text-xs font-semibold text-white/50 uppercase tracking-widest mb-2">Budget (USD)</label>
-            <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 font-semibold">$</span>
-              <input required type="number" placeholder="50,000" value={form.budget} onChange={e => setForm({ ...form, budget: e.target.value })}
-                className="w-full bg-white/5 border border-white/10 rounded-xl pl-9 pr-4 py-3.5 text-white focus:outline-none focus:border-orange-500/50 focus:bg-white/10" />
-            </div>
-          </div>
-          <div>
-            <label className="block text-xs font-semibold text-white/50 uppercase tracking-widest mb-2">Message</label>
-            <textarea required rows={3} placeholder="Briefly introduce your company and licensing intent..." value={form.message} onChange={e => setForm({ ...form, message: e.target.value })}
-              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white focus:outline-none focus:border-orange-500/50 focus:bg-white/10 resize-none" />
-          </div>
-          <div className="flex gap-3 pt-3">
-            <button type="button" onClick={onClose} className="flex-1 py-3.5 border border-white/10 rounded-xl text-white/70 font-semibold hover:bg-white/5">Cancel</button>
-            <button type="submit" className="flex-1 py-3.5 bg-gradient-to-r from-orange-500 to-orange-600 text-black rounded-xl font-bold hover:shadow-lg hover:shadow-orange-500/25">Send Request</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  );
-}
-
-function TitleModal({ title, onClose, onRequest }: { title: Title; onClose: () => void; onRequest: () => void }) {
-  return (
-    <div className="fixed inset-0 z-[70] bg-black/90 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto" onClick={onClose}>
-      <div className="bg-[#141414] rounded-3xl w-full max-w-4xl border border-white/10 shadow-2xl my-8 overflow-hidden" onClick={e => e.stopPropagation()}>
-        <div className="md:grid md:grid-cols-5">
-          {/* Poster */}
-          <div className="md:col-span-2 relative">
-            <img src={title.poster} alt={title.name} className="w-full h-64 md:h-full object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-[#141414] via-transparent to-transparent" />
-            <button onClick={onClose} className="absolute top-4 right-4 w-10 h-10 bg-black/60 backdrop-blur rounded-full flex items-center justify-center text-white/80 hover:text-white hover:bg-black/80">✕</button>
-          </div>
-          
-          {/* Details */}
-          <div className="md:col-span-3 p-8 flex flex-col">
-            <div className="mb-6">
-              <div className="flex items-center gap-3 mb-3">
-                <span className="px-3 py-1 bg-orange-500/20 text-orange-400 text-xs font-bold rounded-full border border-orange-500/30">{title.country}</span>
-                <span className="text-white/40 text-sm">{title.year}</span>
-                <span className="text-white/40 text-sm">•</span>
-                <span className="text-white/40 text-sm">{title.genre}</span>
-              </div>
-              <h2 className="text-3xl font-bold text-white mb-2">{title.name}</h2>
-              <p className="text-white/50 text-sm">Listed by <span className="text-white/80 font-medium">{title.seller}</span></p>
-            </div>
-            
-            <p className="text-white/60 leading-relaxed mb-6">{title.synopsis}</p>
-            
-            {/* Screener */}
-            <div className="mb-6">
-              <p className="text-xs font-semibold text-white/50 uppercase tracking-widest mb-3">🎬 Screener Preview</p>
-              <div className="aspect-video rounded-2xl overflow-hidden bg-black border border-white/10">
-                <iframe src={title.screenerUrl} className="w-full h-full" allowFullScreen title="screener" />
-              </div>
-            </div>
-            
-            {/* Rights */}
-            <div className="mb-6">
-              <p className="text-xs font-semibold text-white/50 uppercase tracking-widest mb-3">Available Rights</p>
-              <div className="flex flex-wrap gap-2">
-                {title.rightsAvailable.map(r => (
-                  <span key={r} className="px-4 py-2 bg-teal-500/15 text-teal-300 text-sm font-semibold rounded-lg border border-teal-500/30">{r}</span>
-                ))}
-              </div>
-            </div>
-            
-            {/* Price + CTA */}
-            <div className="mt-auto pt-6 border-t border-white/10">
-              <div className="flex items-center justify-between mb-5">
-                <div>
-                  <p className="text-xs text-white/40 uppercase tracking-widest mb-1">Asking Price</p>
-                  <p className="text-4xl font-black text-white">${title.price.toLocaleString()}</p>
-                </div>
-                <div className="text-right">
-                  <p className="text-xs text-white/40 uppercase tracking-widest mb-1">Rights Holder</p>
-                  <p className="text-lg font-semibold text-white">{title.seller}</p>
-                </div>
-              </div>
-              <button onClick={onRequest} className="w-full py-4 bg-gradient-to-r from-orange-500 to-orange-600 text-black rounded-xl font-bold text-lg shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 transition-shadow">
-                Request License →
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 export default function BuyerView() {
   const [selectedRights, setSelectedRights] = useState('All Rights');
@@ -165,43 +20,104 @@ export default function BuyerView() {
   });
 
   return (
-    <div className="bg-[#0a0a0a] min-h-screen">
+    <div style={{ background: 'var(--bg-base)', minHeight: '100vh' }}>
       
-      {/* Hero */}
-      <section className="relative">
-        {/* Background */}
-        <div className="absolute inset-0 overflow-hidden">
-          <img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=1920&q=80" className="w-full h-full object-cover opacity-15" alt="" />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0a]/50 via-[#0a0a0a]/80 to-[#0a0a0a]" />
-          <div className="absolute inset-0 bg-gradient-to-r from-orange-900/10 via-transparent to-teal-900/10" />
+      {/* ============================================
+          HERO SECTION
+          ============================================ */}
+      <section style={{ 
+        position: 'relative',
+        paddingTop: '80px',
+        paddingBottom: '100px',
+        overflow: 'hidden'
+      }}>
+        {/* Background Image */}
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          zIndex: 0
+        }}>
+          <img 
+            src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=1920&q=80" 
+            alt=""
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              opacity: 0.12
+            }}
+          />
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'linear-gradient(to bottom, rgba(10,10,10,0.5), rgba(10,10,10,0.9), rgba(10,10,10,1))'
+          }} />
         </div>
-        
-        <div className="relative section-container pt-8 pb-24 md:pt-12 md:pb-32 lg:pt-16 lg:pb-40">
-          <div className="max-w-3xl mx-auto text-center">
+
+        {/* Content */}
+        <div className="container-wide" style={{ position: 'relative', zIndex: 1 }}>
+          <div style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center' }}>
+            
             {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-500/10 border border-orange-500/20 rounded-full mb-6">
-              <span className="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></span>
-              <span className="text-xs font-bold text-orange-400 uppercase tracking-widest">B2B Film Rights Marketplace</span>
+            <div style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px',
+              padding: '8px 16px',
+              background: 'rgba(249, 129, 16, 0.1)',
+              border: '1px solid rgba(249, 129, 16, 0.25)',
+              borderRadius: '100px',
+              marginBottom: '32px'
+            }}>
+              <span style={{
+                width: '8px',
+                height: '8px',
+                background: 'var(--accent-orange)',
+                borderRadius: '50%',
+                animation: 'pulse-glow 2s ease-in-out infinite'
+              }} />
+              <span style={{
+                fontSize: '12px',
+                fontWeight: 700,
+                color: 'var(--accent-orange)',
+                textTransform: 'uppercase',
+                letterSpacing: '1.5px'
+              }}>
+                B2B Film Rights Marketplace
+              </span>
             </div>
-            
+
             {/* Headline */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-[1.05] mb-6">
-              Global Film Rights.
+            <h1 style={{
+              fontSize: 'clamp(40px, 6vw, 64px)',
+              fontWeight: 800,
+              lineHeight: 1.1,
+              marginBottom: '24px'
+            }}>
+              <span style={{ color: 'var(--text-primary)' }}>Global Film Rights.</span>
               <br />
-              <span className="bg-gradient-to-r from-orange-400 to-orange-600 bg-clip-text text-transparent">Seamlessly Traded.</span>
+              <span style={{ color: 'var(--accent-orange)' }}>Seamlessly Traded.</span>
             </h1>
-            
-            {/* Subtitle */}
-            <p className="text-lg sm:text-xl text-white/60 mb-10 max-w-xl mx-auto leading-relaxed">
-              Discover premium catalogs from independent distributors worldwide. Secure dubbing, SVOD, and theatrical rights in one place.
+
+            {/* Subheadline */}
+            <p style={{
+              fontSize: '18px',
+              color: 'var(--text-secondary)',
+              maxWidth: '600px',
+              margin: '0 auto 40px',
+              lineHeight: 1.7
+            }}>
+              Discover premium catalogs from independent distributors worldwide. 
+              Secure dubbing, SVOD, and theatrical rights in one place.
             </p>
-            
+
             {/* CTAs */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="btn-primary text-base">
-                Explore Marketplace →
+            <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
+              <button className="btn-primary">
+                Explore Marketplace
+                <span>→</span>
               </button>
-              <button className="btn-secondary text-base">
+              <button className="btn-secondary">
                 List Your Catalog
               </button>
             </div>
@@ -209,21 +125,41 @@ export default function BuyerView() {
         </div>
       </section>
 
-      {/* Trust Bar */}
-      <section className="border-y border-white/5 bg-[#0f0f0f]">
-        <div className="section-container">
-          <div className="grid grid-cols-2 md:grid-cols-4">
+      {/* ============================================
+          TRUST BAR
+          ============================================ */}
+      <section style={{
+        background: 'var(--bg-surface)',
+        borderTop: '1px solid var(--border-subtle)',
+        borderBottom: '1px solid var(--border-subtle)'
+      }}>
+        <div className="container-wide">
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+            gap: '1px'
+          }}>
             {[
               { icon: '🎬', value: '10,000+', label: 'Titles Available' },
-              { icon: '🔒', value: 'Secure Escrow', label: 'Financial Protection' },
-              { icon: '🌍', value: '24/7 Support', label: 'Global Assistance' },
-              { icon: '✓', value: 'Verified', label: 'Buyer Network' },
-            ].map((s, i) => (
-              <div key={s.label} className={`flex items-center gap-4 py-8 px-6 ${i > 0 ? 'border-l border-white/5' : ''}`}>
-                <span className="text-3xl">{s.icon}</span>
+              { icon: '🔒', value: 'Secure Escrow', label: 'Payment Protection' },
+              { icon: '🌍', value: '24/7 Support', label: 'Global Coverage' },
+              { icon: '✓', value: 'Verified Network', label: 'Trusted Partners' },
+            ].map((stat, i) => (
+              <div key={i} style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '16px',
+                padding: '28px 24px',
+                borderLeft: i > 0 ? '1px solid var(--border-subtle)' : 'none'
+              }}>
+                <span style={{ fontSize: '32px' }}>{stat.icon}</span>
                 <div>
-                  <p className="text-xl font-bold text-white">{s.value}</p>
-                  <p className="text-xs text-white/40 uppercase tracking-widest mt-0.5">{s.label}</p>
+                  <div style={{ fontSize: '18px', fontWeight: 700, color: 'var(--text-primary)' }}>
+                    {stat.value}
+                  </div>
+                  <div style={{ fontSize: '12px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1px' }}>
+                    {stat.label}
+                  </div>
                 </div>
               </div>
             ))}
@@ -231,120 +167,145 @@ export default function BuyerView() {
         </div>
       </section>
 
-      {/* Marketplace */}
-      <section className="py-24 lg:py-32">
-        <div className="section-container">
+      {/* ============================================
+          FILM CATALOG
+          ============================================ */}
+      <section className="section-spacing">
+        <div className="container-wide">
+          
           {/* Header */}
-          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-12">
+          <div style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'flex-end',
+            flexWrap: 'wrap',
+            gap: '24px',
+            marginBottom: '48px'
+          }}>
             <div>
-              <p className="text-sm text-orange-400 font-semibold uppercase tracking-widest mb-2">Featured Inventory</p>
-              <h2 className="text-3xl sm:text-4xl font-bold text-white">Browse Film Catalog</h2>
-              <p className="text-white/40 mt-2">{filtered.length} title{filtered.length !== 1 ? 's' : ''} available for licensing</p>
+              <span className="badge badge-orange" style={{ marginBottom: '12px' }}>Featured Inventory</span>
+              <h2 style={{ fontSize: '36px', fontWeight: 800, color: 'var(--text-primary)' }}>
+                Browse Film Catalog
+              </h2>
+              <p style={{ color: 'var(--text-secondary)', marginTop: '8px' }}>
+                {filtered.length} titles available for licensing
+              </p>
             </div>
             
             {/* Filters */}
-            <div className="flex flex-wrap gap-3">
-              <select value={selectedRights} onChange={e => setSelectedRights(e.target.value)}
-                className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-orange-500/50 min-w-[150px]">
-                {RIGHTS_OPTIONS.map(r => <option key={r} className="bg-[#1a1a1a]">{r}</option>)}
+            <div style={{ display: 'flex', gap: '12px' }}>
+              <select 
+                className="input select"
+                value={selectedRights}
+                onChange={e => setSelectedRights(e.target.value)}
+                style={{ width: '160px' }}
+              >
+                {RIGHTS_OPTIONS.map(r => <option key={r}>{r}</option>)}
               </select>
-              <select value={selectedGenre} onChange={e => setSelectedGenre(e.target.value)}
-                className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-orange-500/50 min-w-[150px]">
-                {GENRE_OPTIONS.map(g => <option key={g} className="bg-[#1a1a1a]">{g}</option>)}
+              <select 
+                className="input select"
+                value={selectedGenre}
+                onChange={e => setSelectedGenre(e.target.value)}
+                style={{ width: '180px' }}
+              >
+                {GENRE_OPTIONS.map(g => <option key={g}>{g}</option>)}
               </select>
-              {(selectedRights !== 'All Rights' || selectedGenre !== 'All Genres') && (
-                <button onClick={() => { setSelectedRights('All Rights'); setSelectedGenre('All Genres'); }}
-                  className="px-4 py-3 text-orange-400 text-sm font-medium hover:text-orange-300">
-                  Clear All
-                </button>
-              )}
             </div>
           </div>
 
-          {/* Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {filtered.map(title => (
-              <div key={title.id} onClick={() => setSelectedTitle(title)}
-                className="group cursor-pointer bg-[#161616] rounded-2xl overflow-hidden border border-white/5 card-hover">
-                {/* Poster */}
-                <div className="relative aspect-[2/3] overflow-hidden">
-                  <img src={title.poster} alt={title.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80" />
-                  
-                  {/* Badges */}
-                  <div className="absolute bottom-4 left-4 right-4 flex flex-wrap gap-2">
-                    {title.rightsAvailable.slice(0, 2).map((r, i) => (
-                      <RightsBadge key={r} label={r.replace('Rights', '').trim()} variant={i === 0 ? 'primary' : 'secondary'} />
-                    ))}
-                  </div>
-                  
-                  {/* Price overlay */}
-                  <div className="absolute top-4 right-4 px-3 py-1.5 bg-black/70 backdrop-blur rounded-lg">
-                    <p className="text-white font-bold">${(title.price / 1000).toFixed(0)}K</p>
-                  </div>
-                </div>
-                
-                {/* Info */}
-                <div className="p-5">
-                  <h4 className="font-bold text-white text-lg mb-1 truncate group-hover:text-orange-400 transition-colors">{title.name}</h4>
-                  <p className="text-white/40 text-sm mb-4">{title.genre} · {title.year}</p>
-                  
-                  <div className="flex items-center justify-between pt-4 border-t border-white/5">
-                    <div className="flex items-center gap-2">
-                      <div className="w-6 h-6 bg-white/10 rounded-full flex items-center justify-center text-xs">🎬</div>
-                      <span className="text-sm text-white/60">{title.seller}</span>
-                    </div>
-                    <span className="text-orange-400 text-sm font-semibold">View →</span>
-                  </div>
-                </div>
-              </div>
+          {/* Film Grid */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+            gap: '24px'
+          }}>
+            {filtered.map((title) => (
+              <FilmCard 
+                key={title.id} 
+                title={title} 
+                onView={() => setSelectedTitle(title)}
+                onRequest={() => { setSelectedTitle(title); setShowRequest(true); }}
+              />
             ))}
           </div>
         </div>
       </section>
 
-      {/* How It Works */}
-      <section className="py-24 lg:py-32 border-t border-white/5">
-        <div className="section-container">
-          <div className="text-center mb-16">
-            <p className="text-sm text-teal-400 font-semibold uppercase tracking-widest mb-2">Simple Process</p>
-            <h2 className="text-3xl sm:text-4xl font-bold text-white">How It Works</h2>
+      {/* ============================================
+          HOW IT WORKS
+          ============================================ */}
+      <section style={{
+        background: 'var(--bg-surface)',
+        borderTop: '1px solid var(--border-subtle)',
+        padding: '120px 0'
+      }}>
+        <div className="container-wide">
+          <div style={{ textAlign: 'center', marginBottom: '64px' }}>
+            <span className="badge badge-orange" style={{ marginBottom: '12px' }}>Simple Process</span>
+            <h2 style={{ fontSize: '36px', fontWeight: 800, color: 'var(--text-primary)' }}>
+              How It Works
+            </h2>
           </div>
-          
-          <div className="grid md:grid-cols-3 gap-8">
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gap: '32px',
+            maxWidth: '1000px',
+            margin: '0 auto'
+          }}>
             {[
-              { step: '01', icon: '🔍', title: 'Discover', desc: 'Browse verified film catalogs from distributors worldwide. Filter by rights type, genre, territory, and budget range.' },
-              { step: '02', icon: '🤝', title: 'Negotiate', desc: 'Submit a license request directly to the rights holder. Specify territory, rights type, and your budget in minutes.' },
-              { step: '03', icon: '✍️', title: 'Close', desc: 'Finalize deal terms, execute the license agreement, and receive your content files securely.' },
-            ].map(s => (
-              <div key={s.step} className="bg-[#141414] border border-white/5 rounded-2xl p-8 hover:border-white/10 transition-colors">
-                <div className="flex items-center gap-4 mb-6">
-                  <span className="text-4xl">{s.icon}</span>
-                  <span className="text-xs font-bold text-orange-400 uppercase tracking-widest">{s.step}</span>
+              { num: '01', icon: '🔍', title: 'Discover', desc: 'Browse verified film catalogs from distributors worldwide. Filter by rights type, genre, and territory.' },
+              { num: '02', icon: '🤝', title: 'Negotiate', desc: 'Submit license requests directly to content owners. Discuss terms and pricing in our secure platform.' },
+              { num: '03', icon: '✅', title: 'Close', desc: 'Finalize deals with protected escrow payments. Get instant access to licensed content.' },
+            ].map((step, i) => (
+              <div key={i} className="card-flat" style={{ padding: '40px 32px', textAlign: 'center' }}>
+                <div style={{
+                  width: '64px',
+                  height: '64px',
+                  background: 'rgba(249, 129, 16, 0.1)',
+                  borderRadius: '16px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  margin: '0 auto 24px',
+                  fontSize: '28px'
+                }}>
+                  {step.icon}
                 </div>
-                <h3 className="text-xl font-bold text-white mb-3">{s.title}</h3>
-                <p className="text-white/50 leading-relaxed">{s.desc}</p>
+                <div style={{ fontSize: '12px', color: 'var(--accent-orange)', fontWeight: 700, marginBottom: '8px' }}>
+                  STEP {step.num}
+                </div>
+                <h3 style={{ fontSize: '22px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '12px' }}>
+                  {step.title}
+                </h3>
+                <p style={{ color: 'var(--text-secondary)', lineHeight: 1.7 }}>
+                  {step.desc}
+                </p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-24 lg:py-32">
-        <div className="section-container">
-          <div className="relative bg-gradient-to-br from-[#1a1a1a] to-[#141414] border border-white/10 rounded-3xl p-12 md:p-16 text-center overflow-hidden">
-            {/* Glow effects */}
-            <div className="absolute -top-24 -right-24 w-64 h-64 bg-orange-500/10 blur-[100px] pointer-events-none" />
-            <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-teal-500/10 blur-[100px] pointer-events-none" />
-            
-            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4 relative">
+      {/* ============================================
+          CTA SECTION
+          ============================================ */}
+      <section className="section-spacing">
+        <div className="container-wide">
+          <div className="card-flat" style={{
+            padding: '80px 48px',
+            textAlign: 'center',
+            background: 'linear-gradient(135deg, var(--bg-card), var(--bg-elevated))',
+            border: '1px solid var(--border-medium)'
+          }}>
+            <h2 style={{ fontSize: '32px', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '16px' }}>
               Ready to expand your global distribution?
             </h2>
-            <p className="text-white/50 text-lg mb-10 max-w-lg mx-auto relative">
+            <p style={{ color: 'var(--text-secondary)', maxWidth: '600px', margin: '0 auto 32px', fontSize: '17px' }}>
               Join the growing network of distributors and content owners streamlining film rights management.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center relative">
+            <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
               <button className="btn-primary">Apply for Access</button>
               <button className="btn-secondary">Contact Sales</button>
             </div>
@@ -352,42 +313,450 @@ export default function BuyerView() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-white/5 py-10">
-        <div className="section-container flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-gradient-to-r from-orange-500 to-orange-600 rounded-lg flex items-center justify-center">
-              <span className="text-black font-black text-xs">DR</span>
+      {/* ============================================
+          FOOTER
+          ============================================ */}
+      <footer style={{
+        borderTop: '1px solid var(--border-subtle)',
+        padding: '32px 0'
+      }}>
+        <div className="container-wide">
+          <div style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            flexWrap: 'wrap',
+            gap: '16px'
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <div style={{
+                width: '32px',
+                height: '32px',
+                background: 'var(--accent-orange)',
+                borderRadius: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}>
+                <span style={{ color: '#000', fontWeight: 800, fontSize: '11px' }}>DR</span>
+              </div>
+              <span style={{ fontWeight: 700, color: 'var(--text-primary)' }}>DubbingRights</span>
             </div>
-            <span className="text-lg font-bold text-white">DubbingRights</span>
-          </div>
-          <p className="text-white/40 text-sm">© 2025 DubbingRights. All rights reserved.</p>
-          <div className="flex gap-6 text-sm text-white/40">
-            {['Privacy', 'Terms', 'Support'].map(l => (
-              <a key={l} href="#" className="hover:text-white transition-colors">{l}</a>
-            ))}
+            <div style={{ display: 'flex', gap: '24px', fontSize: '14px', color: 'var(--text-muted)' }}>
+              <span>© 2025 DubbingRights</span>
+              <a href="#" style={{ color: 'inherit' }}>Privacy</a>
+              <a href="#" style={{ color: 'inherit' }}>Terms</a>
+              <a href="#" style={{ color: 'inherit' }}>Support</a>
+            </div>
           </div>
         </div>
       </footer>
 
-      {/* Modals */}
+      {/* ============================================
+          MODALS
+          ============================================ */}
       {selectedTitle && !showRequest && (
-        <TitleModal title={selectedTitle} onClose={() => setSelectedTitle(null)} onRequest={() => setShowRequest(true)} />
+        <TitleModal 
+          title={selectedTitle} 
+          onClose={() => setSelectedTitle(null)}
+          onRequest={() => setShowRequest(true)}
+        />
       )}
+
       {selectedTitle && showRequest && (
-        <RequestModal title={selectedTitle} onClose={() => { setShowRequest(false); setSelectedTitle(null); }} onSubmit={() => { setShowToast(true); setTimeout(() => setShowToast(false), 4000); }} />
+        <RequestModal 
+          title={selectedTitle}
+          onClose={() => { setShowRequest(false); setSelectedTitle(null); }}
+          onSubmit={() => {
+            setShowRequest(false);
+            setSelectedTitle(null);
+            setShowToast(true);
+            setTimeout(() => setShowToast(false), 4000);
+          }}
+        />
       )}
+
       {showToast && <Toast onClose={() => setShowToast(false)} />}
-      
-      <style jsx>{`
-        @keyframes slide-up {
-          from { opacity: 0; transform: translate(-50%, 20px); }
-          to { opacity: 1; transform: translate(-50%, 0); }
-        }
-        .animate-slide-up {
-          animation: slide-up 0.3s ease forwards;
-        }
-      `}</style>
+    </div>
+  );
+}
+
+/* ============================================
+   FILM CARD COMPONENT
+   ============================================ */
+function FilmCard({ title, onView, onRequest }: { title: Title; onView: () => void; onRequest: () => void }) {
+  return (
+    <div className="card" style={{ overflow: 'hidden' }}>
+      {/* Poster */}
+      <div style={{ position: 'relative', aspectRatio: '2/3' }}>
+        <img 
+          src={title.poster} 
+          alt={title.name}
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover'
+          }}
+        />
+        
+        {/* Price Badge */}
+        <div style={{
+          position: 'absolute',
+          top: '12px',
+          right: '12px',
+          padding: '8px 14px',
+          background: 'linear-gradient(135deg, var(--accent-orange), #e67300)',
+          borderRadius: '10px',
+          fontWeight: 800,
+          fontSize: '14px',
+          color: '#000',
+          boxShadow: '0 4px 12px rgba(249, 129, 16, 0.4)'
+        }}>
+          ${(title.price / 1000).toFixed(0)}K
+        </div>
+
+        {/* Rights Badges */}
+        <div style={{
+          position: 'absolute',
+          bottom: '12px',
+          left: '12px',
+          right: '12px',
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: '6px'
+        }}>
+          {title.rightsAvailable.slice(0, 2).map((r) => (
+            <span key={r} style={{
+              padding: '5px 10px',
+              background: 'rgba(0, 0, 0, 0.75)',
+              backdropFilter: 'blur(8px)',
+              border: '1px solid rgba(255, 255, 255, 0.15)',
+              borderRadius: '6px',
+              fontSize: '10px',
+              fontWeight: 700,
+              color: 'var(--accent-teal)',
+              textTransform: 'uppercase',
+              letterSpacing: '0.5px'
+            }}>
+              {r.replace('Rights', '').trim()}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* Info */}
+      <div style={{ padding: '20px' }}>
+        <h3 style={{ fontSize: '18px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '6px' }}>
+          {title.name}
+        </h3>
+        <p style={{ fontSize: '14px', color: 'var(--text-muted)', marginBottom: '16px' }}>
+          {title.genre} · {title.year}
+        </p>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <div style={{
+              width: '28px',
+              height: '28px',
+              background: 'var(--bg-elevated)',
+              borderRadius: '8px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '12px'
+            }}>🎬</div>
+            <span style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>{title.seller}</span>
+          </div>
+          <button 
+            onClick={onView}
+            style={{
+              background: 'none',
+              border: 'none',
+              color: 'var(--accent-orange)',
+              fontWeight: 600,
+              fontSize: '14px',
+              cursor: 'pointer'
+            }}
+          >
+            View →
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ============================================
+   TITLE MODAL COMPONENT
+   ============================================ */
+function TitleModal({ title, onClose, onRequest }: { title: Title; onClose: () => void; onRequest: () => void }) {
+  return (
+    <div onClick={onClose} style={{
+      position: 'fixed',
+      inset: 0,
+      background: 'rgba(0, 0, 0, 0.9)',
+      backdropFilter: 'blur(8px)',
+      zIndex: 100,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '24px'
+    }}>
+      <div onClick={e => e.stopPropagation()} style={{
+        background: 'var(--bg-card)',
+        border: '1px solid var(--border-medium)',
+        borderRadius: '24px',
+        maxWidth: '900px',
+        width: '100%',
+        maxHeight: '90vh',
+        overflow: 'auto'
+      }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr' }}>
+          {/* Left - Poster & Video */}
+          <div style={{ padding: '32px', borderRight: '1px solid var(--border-subtle)' }}>
+            <img 
+              src={title.poster}
+              alt={title.name}
+              style={{
+                width: '100%',
+                aspectRatio: '2/3',
+                objectFit: 'cover',
+                borderRadius: '16px',
+                marginBottom: '20px'
+              }}
+            />
+            <div style={{
+              aspectRatio: '16/9',
+              background: 'var(--bg-elevated)',
+              borderRadius: '12px',
+              overflow: 'hidden'
+            }}>
+              <iframe
+                src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                title="Screener"
+                style={{ width: '100%', height: '100%', border: 'none' }}
+                allowFullScreen
+              />
+            </div>
+          </div>
+
+          {/* Right - Details */}
+          <div style={{ padding: '32px' }}>
+            <button onClick={onClose} style={{
+              position: 'absolute',
+              top: '24px',
+              right: '24px',
+              background: 'var(--bg-elevated)',
+              border: 'none',
+              width: '36px',
+              height: '36px',
+              borderRadius: '10px',
+              color: 'var(--text-secondary)',
+              cursor: 'pointer',
+              fontSize: '18px'
+            }}>✕</button>
+
+            <span className="badge badge-orange" style={{ marginBottom: '12px' }}>
+              {title.rightsAvailable[0]}
+            </span>
+            <h2 style={{ fontSize: '28px', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '8px' }}>
+              {title.name}
+            </h2>
+            <p style={{ color: 'var(--text-muted)', marginBottom: '24px' }}>
+              {title.genre} · {title.year} · {title.country}
+            </p>
+
+            <p style={{ color: 'var(--text-secondary)', lineHeight: 1.8, marginBottom: '32px' }}>
+              {title.synopsis}
+            </p>
+
+            {/* Details Grid */}
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: '1fr 1fr',
+              gap: '20px',
+              marginBottom: '32px'
+            }}>
+              <div>
+                <div style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '4px' }}>
+                  Available Rights
+                </div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                  {title.rightsAvailable.map(r => (
+                    <span key={r} className="badge badge-teal">{r}</span>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <div style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '4px' }}>
+                  Territories
+                </div>
+                <div style={{ color: 'var(--text-primary)', fontWeight: 500 }}>
+                  {title.territories.join(', ')}
+                </div>
+              </div>
+              <div>
+                <div style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '4px' }}>
+                  Asking Price
+                </div>
+                <div style={{ fontSize: '28px', fontWeight: 800, color: 'var(--accent-orange)' }}>
+                  ${title.price.toLocaleString()}
+                </div>
+              </div>
+              <div>
+                <div style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '4px' }}>
+                  Listed By
+                </div>
+                <div style={{ color: 'var(--text-primary)', fontWeight: 500 }}>
+                  {title.seller}
+                </div>
+              </div>
+            </div>
+
+            <button className="btn-primary" onClick={onRequest} style={{ width: '100%' }}>
+              Request License →
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ============================================
+   REQUEST MODAL COMPONENT
+   ============================================ */
+function RequestModal({ title, onClose, onSubmit }: { title: Title; onClose: () => void; onSubmit: () => void }) {
+  const [form, setForm] = useState({ rightsType: '', territory: '', budget: '', message: '' });
+
+  return (
+    <div onClick={onClose} style={{
+      position: 'fixed',
+      inset: 0,
+      background: 'rgba(0, 0, 0, 0.9)',
+      backdropFilter: 'blur(8px)',
+      zIndex: 100,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '24px'
+    }}>
+      <div onClick={e => e.stopPropagation()} style={{
+        background: 'var(--bg-card)',
+        border: '1px solid var(--border-medium)',
+        borderRadius: '24px',
+        maxWidth: '480px',
+        width: '100%',
+        padding: '40px'
+      }}>
+        <div style={{ marginBottom: '32px' }}>
+          <span className="badge badge-orange" style={{ marginBottom: '12px' }}>License Request</span>
+          <h2 style={{ fontSize: '24px', fontWeight: 800, color: 'var(--text-primary)' }}>
+            {title.name}
+          </h2>
+        </div>
+
+        <form onSubmit={e => { e.preventDefault(); onSubmit(); }} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          <div>
+            <label style={{ display: 'block', fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>
+              Rights Type
+            </label>
+            <select 
+              required
+              className="input select"
+              value={form.rightsType}
+              onChange={e => setForm({ ...form, rightsType: e.target.value })}
+            >
+              <option value="">Select rights type...</option>
+              {title.rightsAvailable.map(r => <option key={r}>{r}</option>)}
+            </select>
+          </div>
+
+          <div>
+            <label style={{ display: 'block', fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>
+              Territory
+            </label>
+            <select 
+              required
+              className="input select"
+              value={form.territory}
+              onChange={e => setForm({ ...form, territory: e.target.value })}
+            >
+              <option value="">Select territory...</option>
+              {title.territories.map(t => <option key={t}>{t}</option>)}
+            </select>
+          </div>
+
+          <div>
+            <label style={{ display: 'block', fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>
+              Budget (USD)
+            </label>
+            <div style={{ position: 'relative' }}>
+              <span style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', fontWeight: 600 }}>$</span>
+              <input 
+                required
+                type="number"
+                className="input"
+                placeholder="50,000"
+                value={form.budget}
+                onChange={e => setForm({ ...form, budget: e.target.value })}
+                style={{ paddingLeft: '36px' }}
+              />
+            </div>
+          </div>
+
+          <div>
+            <label style={{ display: 'block', fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>
+              Message
+            </label>
+            <textarea 
+              required
+              className="input"
+              rows={3}
+              placeholder="Introduce your company and licensing intent..."
+              value={form.message}
+              onChange={e => setForm({ ...form, message: e.target.value })}
+              style={{ resize: 'none' }}
+            />
+          </div>
+
+          <div style={{ display: 'flex', gap: '12px', marginTop: '12px' }}>
+            <button type="button" className="btn-secondary" onClick={onClose} style={{ flex: 1 }}>
+              Cancel
+            </button>
+            <button type="submit" className="btn-primary" style={{ flex: 1 }}>
+              Send Request
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+/* ============================================
+   TOAST COMPONENT
+   ============================================ */
+function Toast({ onClose }: { onClose: () => void }) {
+  return (
+    <div style={{
+      position: 'fixed',
+      bottom: '32px',
+      left: '50%',
+      transform: 'translateX(-50%)',
+      background: 'var(--status-accepted)',
+      color: '#000',
+      padding: '16px 24px',
+      borderRadius: '14px',
+      fontWeight: 700,
+      display: 'flex',
+      alignItems: 'center',
+      gap: '12px',
+      boxShadow: '0 8px 32px rgba(16, 185, 129, 0.3)',
+      zIndex: 200
+    }}>
+      <span>✓</span>
+      <span>Request sent successfully! The seller will contact you shortly.</span>
+      <button onClick={onClose} style={{ background: 'none', border: 'none', color: '#000', cursor: 'pointer', opacity: 0.7 }}>✕</button>
     </div>
   );
 }
