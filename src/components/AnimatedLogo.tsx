@@ -15,7 +15,7 @@ export default function AnimatedLogo({ className = '' }: { className?: string })
 
   return (
     <svg 
-      viewBox="0 0 240 90" 
+      viewBox="0 0 200 85" 
       className={className}
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -30,8 +30,8 @@ export default function AnimatedLogo({ className = '' }: { className?: string })
         `}</style>
       </defs>
 
-      {/* Camera Body */}
-      <g transform="translate(95, 2)">
+      {/* Camera Body - centered */}
+      <g transform="translate(75, 0)">
         {/* Main body */}
         <rect x="8" y="12" width="44" height="35" rx="6" fill="#F98110" />
         
@@ -52,14 +52,12 @@ export default function AnimatedLogo({ className = '' }: { className?: string })
         {/* Play/Pause icon - animated toggle */}
         <g className="play-pause-transition">
           {isPlaying ? (
-            /* Play triangle */
             <polygon 
               points="26,24 26,36 37,30" 
               fill="#F98110"
               className="play-pause-transition"
             />
           ) : (
-            /* Pause bars */
             <g fill="#F98110" className="play-pause-transition">
               <rect x="24" y="24" width="4" height="12" rx="1" />
               <rect x="32" y="24" width="4" height="12" rx="1" />
@@ -72,37 +70,19 @@ export default function AnimatedLogo({ className = '' }: { className?: string })
         <line x1="38" y1="47" x2="50" y2="58" stroke="#F98110" strokeWidth="5" strokeLinecap="round" />
       </g>
 
-      {/* Text: DUBBING RIGHTS - properly spaced */}
-      <g transform="translate(120, 78)">
-        {/* DUBBING - outline only */}
-        <text 
-          x="-55" 
-          y="0" 
-          textAnchor="start"
-          fontFamily="system-ui, -apple-system, sans-serif"
-          fontSize="14"
-          fontWeight="700"
-          fill="none"
-          stroke="#F98110"
-          strokeWidth="1"
-          letterSpacing="0.5"
-        >
-          DUBBING
-        </text>
-        {/* RIGHTS - filled */}
-        <text 
-          x="8" 
-          y="0" 
-          textAnchor="start"
-          fontFamily="system-ui, -apple-system, sans-serif"
-          fontSize="14"
-          fontWeight="700"
-          fill="#F98110"
-          letterSpacing="0.5"
-        >
-          RIGHTS
-        </text>
-      </g>
+      {/* Text: DUBBING RIGHTS - centered with proper spacing */}
+      <text 
+        x="100" 
+        y="78" 
+        textAnchor="middle"
+        fontFamily="system-ui, -apple-system, sans-serif"
+        fontSize="13"
+        fontWeight="800"
+        letterSpacing="1"
+      >
+        <tspan fill="none" stroke="#F98110" strokeWidth="1.2">DUBBING</tspan>
+        <tspan fill="#F98110" dx="4">RIGHTS</tspan>
+      </text>
     </svg>
   );
 }
