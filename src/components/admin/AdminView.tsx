@@ -6,9 +6,9 @@ import { TITLES, DEAL_REQUESTS, USERS, User, UserStatus } from '@/lib/dummyData'
 type Section = 'dashboard' | 'users' | 'titles' | 'deals';
 
 const STATUS_STYLE: Record<string, { pill: string; dot: string }> = {
-  Pending:    { pill: 'bg-yellow-500/15 text-yellow-400 border-yellow-500/30', dot: 'bg-yellow-400' },
-  'In Review':{ pill: 'bg-blue-500/15 text-blue-400 border-blue-500/30',      dot: 'bg-blue-400'   },
-  Accepted:   { pill: 'bg-green-500/15 text-green-400 border-green-500/30',   dot: 'bg-green-400'  },
+  Pending:    { pill: 'bg-yellow-500/15 text-yellow-300 border-yellow-500/30', dot: 'bg-yellow-300' },
+  'In Review':{ pill: 'bg-blue-500/15 text-blue-300 border-blue-500/30',      dot: 'bg-blue-300'   },
+  Accepted:   { pill: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30', dot: 'bg-emerald-300' },
   Rejected:   { pill: 'bg-red-500/15 text-red-400 border-red-500/30',         dot: 'bg-red-400'    },
 };
 
@@ -31,10 +31,10 @@ export default function AdminView() {
   ];
 
   return (
-    <div className="bg-[#0A0A0A] min-h-screen flex">
+    <div className="bg-[#0A0A0A] flex">
 
       {/* Sidebar — desktop */}
-      <aside className="hidden lg:flex flex-col w-56 xl:w-64 bg-[#131313] border-r border-[#574335]/20 fixed top-16 bottom-0 overflow-y-auto">
+      <aside className="hidden lg:flex flex-col w-56 xl:w-64 bg-[#131313] border-r border-[#574335]/20 fixed top-16 bottom-0 overflow-y-auto z-30">
         <div className="px-5 py-5 border-b border-[#574335]/20">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 bg-[#60a5fa]/15 border border-[#60a5fa]/30 rounded-lg flex items-center justify-center shrink-0">
@@ -68,8 +68,8 @@ export default function AdminView() {
         </nav>
         <div className="px-5 py-4 border-t border-[#574335]/20">
           <div className="space-y-2">
-            <div className="flex justify-between text-xs"><span className="text-[#DEC1AF]">Status</span><span className="text-[#4ade80] font-semibold">🟢 Online</span></div>
-            <div className="flex justify-between text-xs"><span className="text-[#DEC1AF]">Pending</span><span className="text-[#E5E2E1] font-semibold">{pendingUsers.length} approvals</span></div>
+            <div className="flex justify-between items-center text-xs gap-2"><span className="text-[#DEC1AF] shrink-0">Platform</span><span className="text-[#4ade80] font-semibold">🟢 Online</span></div>
+            <div className="flex justify-between items-center text-xs gap-2"><span className="text-[#DEC1AF] shrink-0">Pending</span><span className="text-[#E5E2E1] font-semibold shrink-0">{pendingUsers.length} waiting</span></div>
           </div>
         </div>
       </aside>
@@ -88,7 +88,7 @@ export default function AdminView() {
       </div>
 
       {/* Main */}
-      <main className="lg:ml-56 xl:ml-64 flex-1 px-4 sm:px-6 lg:px-8 py-8 pb-24 lg:pb-8 min-w-0">
+      <main className="lg:ml-56 xl:ml-64 flex-1 px-4 sm:px-6 lg:px-8 py-8 pb-24 lg:pb-8 min-w-0 min-h-screen">
 
         {/* DASHBOARD */}
         {section === 'dashboard' && (
@@ -124,16 +124,21 @@ export default function AdminView() {
                   {DEAL_REQUESTS.map(d => {
                     const ss = STATUS_STYLE[d.status];
                     return (
-                      <div key={d.id} className="px-5 py-4 flex items-center justify-between gap-3 hover:bg-[#201f1f]/50 transition-colors">
+                      <div key={d.id} className="px-5 py-4 flex items-center gap-4 hover:bg-[#201f1f]/50 transition-colors">
                         <div className="min-w-0 flex-1">
-                          <p className="text-sm font-bold text-[#E5E2E1] truncate">{d.buyer}</p>
-                          <p className="text-xs text-[#DEC1AF] truncate">{d.titleName} · {d.rightsRequested}</p>
-                          <p className="text-xs text-[#F98110] font-semibold mt-0.5">${d.budget.toLocaleString()}</p>
+                          <div className="flex items-center gap-2 mb-0.5">
+                            <p className="text-sm font-bold text-[#E5E2E1]">{d.buyer}</p>
+                            <span className={`inline-flex items-center gap-1 px-2 py-0.5 text-[9px] font-bold rounded-md border whitespace-nowrap shrink-0 ${ss.pill}`}>
+                              <span className={`w-1 h-1 rounded-full ${ss.dot}`}></span>
+                              {d.status}
+                            </span>
+                          </div>
+                          <p className="text-xs text-[#DEC1AF]">{d.titleName}</p>
+                          <div className="flex items-center gap-2 mt-1">
+                            <span className="text-[10px] text-[#DEC1AF] bg-[#201f1f] px-2 py-0.5 rounded">{d.rightsRequested}</span>
+                            <span className="text-xs text-[#F98110] font-bold">${d.budget.toLocaleString()}</span>
+                          </div>
                         </div>
-                        <span className={`inline-flex items-center gap-1 px-2 py-1 text-[10px] font-bold rounded-lg border whitespace-nowrap shrink-0 ${ss.pill}`}>
-                          <span className={`w-1.5 h-1.5 rounded-full ${ss.dot}`}></span>
-                          {d.status}
-                        </span>
                       </div>
                     );
                   })}

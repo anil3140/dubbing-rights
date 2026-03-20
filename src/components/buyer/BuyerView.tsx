@@ -7,11 +7,13 @@ const RIGHTS_OPTIONS = ['All Rights', 'LATAM Dubbing', 'EU SVOD', 'Global VOD', 
 const GENRE_OPTIONS = ['All Genres', 'Action / Thriller', 'Adventure / Drama', 'History / Epic', 'Sci-Fi / Action', 'Drama / War', 'Horror / Thriller', 'Romance / Drama', 'Action / Historical'];
 
 function Badge({ label, variant = 'orange' }: { label: string; variant?: 'orange' | 'dark' }) {
+  // Shorten long labels for card display
+  const short = label.replace('Dubbing', 'Dub').replace('Theatrical', 'Theatre').replace('Digital Rights', 'Digital').replace('Rights', '').replace('Global ', '').trim();
   return (
-    <span className={`inline-block px-2 py-0.5 text-[10px] font-bold uppercase rounded whitespace-nowrap leading-5 ${
+    <span className={`inline-block px-2 py-0.5 text-[9px] font-bold uppercase rounded whitespace-nowrap leading-5 max-w-full overflow-hidden text-ellipsis ${
       variant === 'orange' ? 'bg-[#F98110] text-black' : 'bg-black/60 text-[#E5E2E1] border border-white/10'
     }`}>
-      {label}
+      {short}
     </span>
   );
 }
@@ -155,7 +157,7 @@ export default function BuyerView() {
   return (
     <div className="bg-[#0A0A0A]">
       {/* Hero */}
-      <section className="relative min-h-[520px] flex items-center justify-center overflow-hidden py-16">
+      <section className="relative flex items-center justify-center py-20 sm:py-24">
         <div className="absolute inset-0">
           <img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=1600&q=80" className="w-full h-full object-cover opacity-20" alt="" />
           <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A0A]/40 via-[#0A0A0A]/60 to-[#0A0A0A]" />
@@ -211,20 +213,22 @@ export default function BuyerView() {
               <p className="text-[#DEC1AF] text-sm mt-1">{filtered.length} title{filtered.length !== 1 ? 's' : ''} available for licensing</p>
             </div>
             <div className="flex flex-wrap items-center gap-2">
-              <select value={selectedRights} onChange={e => setSelectedRights(e.target.value)}
-                className="bg-[#1c1b1b] border border-[#574335]/40 rounded-xl px-3 py-2.5 text-[#E5E2E1] text-sm focus:outline-none focus:border-[#F98110] w-full sm:w-auto">
-                {RIGHTS_OPTIONS.map(r => <option key={r}>{r}</option>)}
-              </select>
-              <select value={selectedGenre} onChange={e => setSelectedGenre(e.target.value)}
-                className="bg-[#1c1b1b] border border-[#574335]/40 rounded-xl px-3 py-2.5 text-[#E5E2E1] text-sm focus:outline-none focus:border-[#F98110] w-full sm:w-auto">
-                {GENRE_OPTIONS.map(g => <option key={g}>{g}</option>)}
-              </select>
-              {(selectedRights !== 'All Rights' || selectedGenre !== 'All Genres') && (
-                <button onClick={() => { setSelectedRights('All Rights'); setSelectedGenre('All Genres'); }}
-                  className="px-3 py-2.5 text-sm text-[#DEC1AF] hover:text-[#F98110] font-semibold border border-[#574335]/30 rounded-xl hover:border-[#F98110]/40 w-full sm:w-auto">
-                  Clear
-                </button>
-              )}
+              <div className="flex gap-2 w-full sm:w-auto">
+                <select value={selectedRights} onChange={e => setSelectedRights(e.target.value)}
+                  className="bg-[#1c1b1b] border border-[#574335]/40 rounded-xl px-3 py-2.5 text-[#E5E2E1] text-sm focus:outline-none focus:border-[#F98110] flex-1 sm:flex-none min-w-0">
+                  {RIGHTS_OPTIONS.map(r => <option key={r}>{r}</option>)}
+                </select>
+                <select value={selectedGenre} onChange={e => setSelectedGenre(e.target.value)}
+                  className="bg-[#1c1b1b] border border-[#574335]/40 rounded-xl px-3 py-2.5 text-[#E5E2E1] text-sm focus:outline-none focus:border-[#F98110] flex-1 sm:flex-none min-w-0">
+                  {GENRE_OPTIONS.map(g => <option key={g}>{g}</option>)}
+                </select>
+                {(selectedRights !== 'All Rights' || selectedGenre !== 'All Genres') && (
+                  <button onClick={() => { setSelectedRights('All Rights'); setSelectedGenre('All Genres'); }}
+                    className="px-3 py-2.5 text-sm text-[#DEC1AF] hover:text-[#F98110] font-semibold border border-[#574335]/30 rounded-xl hover:border-[#F98110]/40 shrink-0">
+                    ✕
+                  </button>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -245,21 +249,18 @@ export default function BuyerView() {
                   <img src={title.poster} alt={title.name} className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/10 to-transparent" />
                   <div className="absolute bottom-2 left-2 right-2 flex flex-wrap gap-1">
-                    {title.rightsAvailable.map(r => (
+                    {title.rightsAvailable.slice(0, 2).map(r => (
                       <Badge key={r} label={r} variant={r.toLowerCase().includes('dubbing') || r.toLowerCase().includes('theatrical') ? 'orange' : 'dark'} />
                     ))}
                   </div>
                 </div>
                 {/* Info */}
                 <div className="p-3 sm:p-4">
-                  <h4 className="font-bold text-[#E5E2E1] text-sm sm:text-base leading-snug mb-0.5">{title.name}</h4>
-                  <p className="text-xs text-[#DEC1AF] mb-3">{title.genre} · {title.year}</p>
-                  <div className="flex items-end justify-between pt-2.5 border-t border-[#574335]/20">
-                    <div>
-                      <p className="text-[10px] text-[#DEC1AF] uppercase tracking-wide leading-none mb-0.5">Price</p>
-                      <p className="text-[#F98110] font-black text-sm sm:text-base leading-none">${title.price.toLocaleString()}</p>
-                    </div>
-                    <p className="text-[10px] text-[#DEC1AF] text-right max-w-[90px] leading-tight">{title.seller}</p>
+                  <h4 className="font-bold text-[#E5E2E1] text-sm leading-snug mb-0.5 truncate">{title.name}</h4>
+                  <p className="text-xs text-[#DEC1AF] mb-2.5 truncate">{title.genre} · {title.year} · {title.country}</p>
+                  <div className="flex items-center justify-between pt-2.5 border-t border-[#574335]/20">
+                    <p className="text-[#F98110] font-black text-sm leading-none">${title.price.toLocaleString()}</p>
+                    <span className="text-[10px] text-[#DEC1AF] bg-[#131313] px-2 py-1 rounded font-semibold truncate max-w-[100px]">{title.seller}</span>
                   </div>
                 </div>
               </div>

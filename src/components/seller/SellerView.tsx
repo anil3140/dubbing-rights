@@ -6,9 +6,9 @@ import { TITLES, DEAL_REQUESTS, DealRequest } from '@/lib/dummyData';
 const SELLER_TITLES = TITLES.filter(t => t.sellerId === 'seller-1');
 
 const STATUS_STYLE: Record<string, { pill: string; dot: string }> = {
-  Pending:    { pill: 'bg-yellow-500/15 text-yellow-400 border-yellow-500/30', dot: 'bg-yellow-400' },
-  'In Review':{ pill: 'bg-blue-500/15 text-blue-400 border-blue-500/30',      dot: 'bg-blue-400'   },
-  Accepted:   { pill: 'bg-green-500/15 text-green-400 border-green-500/30',   dot: 'bg-green-400'  },
+  Pending:    { pill: 'bg-yellow-500/15 text-yellow-300 border-yellow-500/30', dot: 'bg-yellow-300' },
+  'In Review':{ pill: 'bg-blue-500/15 text-blue-300 border-blue-500/30',      dot: 'bg-blue-300'   },
+  Accepted:   { pill: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30', dot: 'bg-emerald-300' },
   Rejected:   { pill: 'bg-red-500/15 text-red-400 border-red-500/30',         dot: 'bg-red-400'    },
 };
 
@@ -137,7 +137,7 @@ export default function SellerView() {
   const fire = (msg: string) => { setToast(msg); setTimeout(() => setToast(''), 4000); };
 
   return (
-    <div className="bg-[#0A0A0A] min-h-screen">
+    <div className="bg-[#0A0A0A]">
       <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
 
         {/* Header */}
