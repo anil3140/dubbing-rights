@@ -12,9 +12,13 @@ export default function TopNav() {
       <div className="flex items-center justify-between h-full px-4 sm:px-6 lg:px-8 max-w-screen-2xl mx-auto gap-4">
 
         {/* Brand */}
-        <div className="flex items-center gap-2 shrink-0">
-          <img src="/logo.png" alt="DubbingRights" className="h-10 w-auto" />
-        </div>
+        <a href="/" className="flex items-center gap-3 shrink-0 group">
+          <img 
+            src="/logo.png" 
+            alt="DubbingRights" 
+            className="h-8 sm:h-9 lg:h-10 w-auto transition-transform duration-200 group-hover:scale-105" 
+          />
+        </a>
 
         {/* Search — desktop only */}
         <div className="hidden xl:flex items-center bg-[#1c1b1b] px-3 py-2 rounded-lg gap-2 w-56 border border-[#574335]/30 shrink-0">

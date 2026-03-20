@@ -328,9 +328,9 @@ export default function BuyerView() {
             flexWrap: 'wrap',
             gap: '16px'
           }}>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <img src="/logo.png" alt="DubbingRights" style={{ height: '36px', width: 'auto' }} />
-            </div>
+            <a href="/" style={{ display: 'flex', alignItems: 'center', transition: 'opacity 0.2s' }} className="hover:opacity-80">
+              <img src="/logo.png" alt="DubbingRights" style={{ height: '32px', width: 'auto' }} />
+            </a>
             <div style={{ display: 'flex', gap: '24px', fontSize: '14px', color: 'var(--text-muted)' }}>
               <span>© 2025 DubbingRights</span>
               <a href="#" style={{ color: 'inherit' }}>Privacy</a>
