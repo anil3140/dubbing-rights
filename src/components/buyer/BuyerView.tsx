@@ -321,7 +321,7 @@ export default function BuyerView() {
             gap: '16px'
           }}>
             <a href="/" style={{ display: 'flex', alignItems: 'center', transition: 'opacity 0.2s' }} className="hover:opacity-80">
-              <img src="/logo.png" alt="DubbingRights" style={{ height: '32px', width: 'auto' }} />
+              <img src="/logo.png" alt="DubbingRights" style={{ height: '40px', width: 'auto' }} />
             </a>
             <div style={{ display: 'flex', gap: '24px', fontSize: '14px', color: '#6b7280' }}>
               <span>© 2025 DubbingRights</span>

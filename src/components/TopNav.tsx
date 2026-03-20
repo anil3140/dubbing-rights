@@ -2,6 +2,7 @@
 
 import { useRole, Role } from '@/context/RoleContext';
 import { useState } from 'react';
+import AnimatedLogo from './AnimatedLogo';
 
 export default function TopNav() {
   const { role, setRole } = useRole();
@@ -12,12 +13,8 @@ export default function TopNav() {
       <div className="flex items-center justify-between h-full px-4 sm:px-6 lg:px-8 max-w-screen-2xl mx-auto gap-4">
 
         {/* Brand */}
-        <a href="/" className="flex items-center gap-3 shrink-0 group">
-          <img 
-            src="/logo.png" 
-            alt="DubbingRights" 
-            className="h-8 sm:h-9 lg:h-10 w-auto transition-transform duration-200 group-hover:scale-105" 
-          />
+        <a href="/" className="flex items-center shrink-0 group">
+          <AnimatedLogo className="h-12 sm:h-14 lg:h-16 w-auto transition-transform duration-200 group-hover:scale-105" />
         </a>
 
         {/* Search — desktop only */}
