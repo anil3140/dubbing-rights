@@ -20,7 +20,7 @@ export default function BuyerView() {
   });
 
   return (
-    <div style={{ background: 'var(--bg-base)', minHeight: '100vh' }}>
+    <div style={{ background: '#fafafa', minHeight: '100vh' }}>
       
       {/* ============================================
           HERO SECTION
@@ -31,26 +31,17 @@ export default function BuyerView() {
         paddingBottom: '100px',
         overflow: 'hidden'
       }}>
-        {/* Background Image */}
+        {/* Background */}
         <div style={{
           position: 'absolute',
           inset: 0,
-          zIndex: 0
+          zIndex: 0,
+          background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)'
         }}>
-          <img 
-            src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=1920&q=80" 
-            alt=""
-            style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              opacity: 0.12
-            }}
-          />
           <div style={{
             position: 'absolute',
             inset: 0,
-            background: 'linear-gradient(to bottom, rgba(10,10,10,0.5), rgba(10,10,10,0.9), rgba(10,10,10,1))'
+            background: 'radial-gradient(circle at 30% 20%, rgba(249, 129, 16, 0.15), transparent 50%)'
           }} />
         </div>
 
@@ -94,7 +85,7 @@ export default function BuyerView() {
               lineHeight: 1.1,
               marginBottom: '24px'
             }}>
-              <span style={{ color: 'var(--text-primary)' }}>Global Film Rights.</span>
+              <span style={{ color: '#ffffff' }}>Global Film Rights.</span>
               <br />
               <span style={{ color: 'var(--accent-orange)' }}>Seamlessly Traded.</span>
             </h1>
@@ -102,7 +93,7 @@ export default function BuyerView() {
             {/* Subheadline */}
             <p style={{
               fontSize: '18px',
-              color: 'var(--text-secondary)',
+              color: 'rgba(255,255,255,0.8)',
               maxWidth: '600px',
               margin: '0 auto 40px',
               lineHeight: 1.7
@@ -129,9 +120,9 @@ export default function BuyerView() {
           TRUST BAR
           ============================================ */}
       <section style={{
-        background: 'var(--bg-surface)',
-        borderTop: '1px solid var(--border-subtle)',
-        borderBottom: '1px solid var(--border-subtle)'
+        background: '#ffffff',
+        borderTop: '1px solid #e5e7eb',
+        borderBottom: '1px solid #e5e7eb'
       }}>
         <div className="container-wide">
           <div style={{
@@ -150,11 +141,11 @@ export default function BuyerView() {
                 alignItems: 'center',
                 gap: '16px',
                 padding: '28px 24px',
-                borderLeft: i > 0 ? '1px solid var(--border-subtle)' : 'none'
+                borderLeft: i > 0 ? '1px solid #e5e7eb' : 'none'
               }}>
                 <span style={{ fontSize: '32px' }}>{stat.icon}</span>
                 <div>
-                  <div style={{ fontSize: '18px', fontWeight: 700, color: 'var(--text-primary)' }}>
+                  <div style={{ fontSize: '18px', fontWeight: 700, color: '#1a1a2e' }}>
                     {stat.value}
                   </div>
                   <div style={{ fontSize: '12px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1px' }}>
@@ -235,14 +226,14 @@ export default function BuyerView() {
           HOW IT WORKS
           ============================================ */}
       <section style={{
-        background: 'var(--bg-surface)',
-        borderTop: '1px solid var(--border-subtle)',
+        background: '#ffffff',
+        borderTop: '1px solid #e5e7eb',
         padding: '120px 0'
       }}>
         <div className="container-wide">
           <div style={{ textAlign: 'center', marginBottom: '64px' }}>
             <span className="badge badge-orange" style={{ marginBottom: '12px' }}>Simple Process</span>
-            <h2 style={{ fontSize: '36px', fontWeight: 800, color: 'var(--text-primary)' }}>
+            <h2 style={{ fontSize: '36px', fontWeight: 800, color: '#1a1a2e' }}>
               How It Works
             </h2>
           </div>
@@ -317,7 +308,8 @@ export default function BuyerView() {
           FOOTER
           ============================================ */}
       <footer style={{
-        borderTop: '1px solid var(--border-subtle)',
+        background: '#ffffff',
+        borderTop: '1px solid #e5e7eb',
         padding: '32px 0'
       }}>
         <div className="container-wide">
@@ -331,7 +323,7 @@ export default function BuyerView() {
             <a href="/" style={{ display: 'flex', alignItems: 'center', transition: 'opacity 0.2s' }} className="hover:opacity-80">
               <img src="/logo.png" alt="DubbingRights" style={{ height: '32px', width: 'auto' }} />
             </a>
-            <div style={{ display: 'flex', gap: '24px', fontSize: '14px', color: 'var(--text-muted)' }}>
+            <div style={{ display: 'flex', gap: '24px', fontSize: '14px', color: '#6b7280' }}>
               <span>© 2025 DubbingRights</span>
               <a href="#" style={{ color: 'inherit' }}>Privacy</a>
               <a href="#" style={{ color: 'inherit' }}>Terms</a>

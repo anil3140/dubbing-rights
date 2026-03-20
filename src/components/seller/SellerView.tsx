@@ -21,7 +21,7 @@ export default function SellerView() {
   const pendingCount = myDeals.filter(d => d.status === 'Pending').length;
 
   return (
-    <div style={{ background: 'var(--bg-base)', minHeight: '100vh' }}>
+    <div style={{ background: '#fafafa', minHeight: '100vh' }}>
       
       {/* ============================================
           HEADER

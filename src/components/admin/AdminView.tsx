@@ -30,15 +30,15 @@ export default function AdminView() {
   ];
 
   return (
-    <div style={{ background: 'var(--bg-base)', minHeight: '100vh', display: 'flex' }}>
+    <div style={{ background: '#fafafa', minHeight: '100vh', display: 'flex' }}>
       
       {/* ============================================
           SIDEBAR — Desktop
           ============================================ */}
       <aside style={{
         width: '260px',
-        background: 'var(--bg-surface)',
-        borderRight: '1px solid var(--border-subtle)',
+        background: '#ffffff',
+        borderRight: '1px solid #e5e7eb',
         position: 'fixed',
         top: '64px',
         bottom: 0,
