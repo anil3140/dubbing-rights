@@ -21,7 +21,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={`${manrope.variable} font-sans bg-[#0A0A0A] text-[#E5E2E1] antialiased`}>
         <RoleProvider>
           <TopNav />
-          <div className="pt-16">
+          <div style={{ paddingTop: '64px' }}>
             {children}
           </div>
         </RoleProvider>

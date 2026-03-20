@@ -8,10 +8,10 @@ const GENRE_OPTIONS = ['All Genres', 'Action / Thriller', 'Adventure / Drama', '
 
 function RightsBadge({ label, variant = 'primary' }: { label: string; variant?: 'primary' | 'secondary' }) {
   const styles = variant === 'primary' 
-    ? 'bg-gradient-to-r from-orange-500 to-orange-600 text-black' 
-    : 'bg-white/10 text-white/90 border border-white/10';
+    ? 'bg-gradient-to-r from-orange-500 to-orange-600 text-black shadow-lg shadow-orange-500/30' 
+    : 'bg-black/70 text-white backdrop-blur border border-white/20';
   return (
-    <span className={`inline-flex items-center px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide rounded-md ${styles}`}>
+    <span className={`inline-flex items-center px-3 py-1.5 text-[11px] font-bold uppercase tracking-wide rounded-lg ${styles}`}>
       {label}
     </span>
   );
@@ -168,24 +168,24 @@ export default function BuyerView() {
     <div className="bg-[#0a0a0a] min-h-screen">
       
       {/* Hero */}
-      <section className="relative overflow-hidden">
+      <section className="relative">
         {/* Background */}
-        <div className="absolute inset-0">
+        <div className="absolute inset-0 overflow-hidden">
           <img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=1920&q=80" className="w-full h-full object-cover opacity-15" alt="" />
           <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0a]/50 via-[#0a0a0a]/80 to-[#0a0a0a]" />
           <div className="absolute inset-0 bg-gradient-to-r from-orange-900/10 via-transparent to-teal-900/10" />
         </div>
         
-        <div className="relative section-container py-24 md:py-32 lg:py-40">
+        <div className="relative section-container pt-8 pb-24 md:pt-12 md:pb-32 lg:pt-16 lg:pb-40">
           <div className="max-w-3xl mx-auto text-center">
             {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-500/10 border border-orange-500/20 rounded-full mb-8">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-500/10 border border-orange-500/20 rounded-full mb-6">
               <span className="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></span>
               <span className="text-xs font-bold text-orange-400 uppercase tracking-widest">B2B Film Rights Marketplace</span>
             </div>
             
             {/* Headline */}
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black text-white leading-[0.95] mb-6">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-[1.05] mb-6">
               Global Film Rights.
               <br />
               <span className="bg-gradient-to-r from-orange-400 to-orange-600 bg-clip-text text-transparent">Seamlessly Traded.</span>
@@ -210,7 +210,7 @@ export default function BuyerView() {
       </section>
 
       {/* Trust Bar */}
-      <section className="border-y border-white/5 bg-[#111]">
+      <section className="border-y border-white/5 bg-[#0f0f0f]">
         <div className="section-container">
           <div className="grid grid-cols-2 md:grid-cols-4">
             {[
@@ -219,11 +219,11 @@ export default function BuyerView() {
               { icon: '🌍', value: '24/7 Support', label: 'Global Assistance' },
               { icon: '✓', value: 'Verified', label: 'Buyer Network' },
             ].map((s, i) => (
-              <div key={s.label} className={`flex items-center gap-4 py-6 px-6 ${i > 0 ? 'border-l border-white/5' : ''}`}>
-                <span className="text-2xl">{s.icon}</span>
+              <div key={s.label} className={`flex items-center gap-4 py-8 px-6 ${i > 0 ? 'border-l border-white/5' : ''}`}>
+                <span className="text-3xl">{s.icon}</span>
                 <div>
-                  <p className="text-lg font-bold text-white">{s.value}</p>
-                  <p className="text-xs text-white/40 uppercase tracking-widest">{s.label}</p>
+                  <p className="text-xl font-bold text-white">{s.value}</p>
+                  <p className="text-xs text-white/40 uppercase tracking-widest mt-0.5">{s.label}</p>
                 </div>
               </div>
             ))}
@@ -232,7 +232,7 @@ export default function BuyerView() {
       </section>
 
       {/* Marketplace */}
-      <section className="py-20">
+      <section className="py-24 lg:py-32">
         <div className="section-container">
           {/* Header */}
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-12">
@@ -304,7 +304,7 @@ export default function BuyerView() {
       </section>
 
       {/* How It Works */}
-      <section className="py-20 border-t border-white/5">
+      <section className="py-24 lg:py-32 border-t border-white/5">
         <div className="section-container">
           <div className="text-center mb-16">
             <p className="text-sm text-teal-400 font-semibold uppercase tracking-widest mb-2">Simple Process</p>
@@ -331,7 +331,7 @@ export default function BuyerView() {
       </section>
 
       {/* CTA */}
-      <section className="py-20">
+      <section className="py-24 lg:py-32">
         <div className="section-container">
           <div className="relative bg-gradient-to-br from-[#1a1a1a] to-[#141414] border border-white/10 rounded-3xl p-12 md:p-16 text-center overflow-hidden">
             {/* Glow effects */}
